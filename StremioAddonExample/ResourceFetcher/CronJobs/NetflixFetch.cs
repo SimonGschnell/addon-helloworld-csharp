@@ -1,3 +1,4 @@
+using System.Reflection;
 using Newtonsoft.Json;
 using Quartz;
 using ResourceFetcher.Models;
@@ -22,8 +23,8 @@ public class NetflixFetch: IJob
         {
             _logger.LogInformation("NetflixFetch job executed at: {time}", DateTime.Now);
 
-            await Process(CatalogType.movie, CatalogId.netflixTop10);
-            await Process(CatalogType.series, CatalogId.netflixTop10);
+            await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.movie);
+            await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.series);
         }
         catch (Exception ex)
         {
@@ -31,14 +32,32 @@ public class NetflixFetch: IJob
         }
     }
 
-    private async Task Process(CatalogType catalogType, CatalogId catalogId)
+    private async Task FetchAndPersistFor(CatalogId catalogId, CatalogType catalogType)
     {
-        var movieResponse = await GetListFor(catalogType);
+        var movieResponse = await GetApiResultFor(catalogType);
 
-        NewMethod(movieResponse, catalogType, catalogId);
+        var data = ConvertApiResultToMetaDa(movieResponse);
+
+        PersistMetaDataToLocalApplicationData(catalogType, catalogId, data);
     }
 
-    private static void NewMethod(string movieResponse, CatalogType catalogType, CatalogId catalogId)
+    private static void PersistMetaDataToLocalApplicationData(CatalogType catalogType, CatalogId catalogId, string data)
+    {
+        var projectName = Assembly.GetExecutingAssembly().GetName().Name ?? "ResourceFetcher";
+        
+        var outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), projectName);
+
+        var directoryPath = Path.Combine(outputPath, catalogType.ToString(), catalogId.ToString());
+
+        var filePath = Path.Combine(directoryPath, "testrun.json");
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+        File.WriteAllText(filePath,data);
+    }
+
+    private static string ConvertApiResultToMetaDa(string movieResponse)
     {
         var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(movieResponse) ?? [];
         var metasList = new List<Meta>();
@@ -61,23 +80,10 @@ public class NetflixFetch: IJob
         };
 
         var data = JsonConvert.SerializeObject(json);
-        var outputPath = Environment.GetEnvironmentVariable("RESOURCE_FETCHER_OUTPUT_PATH");
-        if (outputPath == null)
-        {
-            throw new Exception("RESOURCE_FETCHER_OUTPUT_PATH env not set");
-        }
-
-        var directoryPath = Path.Combine(outputPath, catalogType.ToString(), catalogId.ToString());
-
-        var filePath = Path.Combine(directoryPath, "testrun.json");
-        if (!Directory.Exists(directoryPath))
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
-        File.WriteAllText(filePath,data);
+        return data;
     }
 
-    private async Task<string> GetListFor( CatalogType type)
+    private async Task<string> GetApiResultFor( CatalogType type)
     {
         var queryParameters = new Dictionary<string, string>()
         {
