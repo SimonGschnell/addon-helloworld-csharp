@@ -13,10 +13,15 @@ public class Program
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
         DotEnv.Load(options: new DotEnvOptions(trimValues: true));
+        var rapidApiKey = EnvReader.GetStringValue("RAPID_API_KEY");
+        if (rapidApiKey == null)
+        {
+            throw new Exception("RAPID_API_KEY env not set");
+        }
         
         builder.Services.AddHttpClient<ResourceFetcherHttpClient>(conf =>
         {
-            conf.DefaultRequestHeaders.Add("X-RapidAPI-Key",EnvReader.GetStringValue("RAPID_API_KEY"));
+            conf.DefaultRequestHeaders.Add("X-RapidAPI-Key",rapidApiKey);
             conf.DefaultRequestHeaders.Add("X-RapidAPI-Host", "streaming-availability.p.rapidapi.com");
         });
         

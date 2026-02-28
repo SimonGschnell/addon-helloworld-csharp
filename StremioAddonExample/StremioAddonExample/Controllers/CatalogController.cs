@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using dotenv.net.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StremioAddonExample.Models;
@@ -68,8 +69,13 @@ namespace StremioAddonExample.Controllers
             // var res = catalog.Where(x => x.Type == type);
             //
             // return new JsonResult(new { metas = res });
+            var stremioDataPath = EnvReader.GetStringValue("STREMIO_DATA");
+            if (stremioDataPath == null)
+            {
+                throw new Exception("STREMIO_DATA env not set");
+            }
             var dataFolder = Path.Combine(
-                Environment.GetEnvironmentVariable("STREMIO_DATA"),
+                stremioDataPath,
                 type,
                 id
             );
