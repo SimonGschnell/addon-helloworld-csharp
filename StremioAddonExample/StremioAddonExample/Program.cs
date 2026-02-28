@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using dotenv.net;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace StremioAddonExample
@@ -7,6 +8,7 @@ namespace StremioAddonExample
     {
         public static void Main(string[] args)
         {
+            DotEnv.Load();
             CreateWebHostBuilder(args).Build().Run();
         }
 

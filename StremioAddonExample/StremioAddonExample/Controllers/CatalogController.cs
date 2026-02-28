@@ -69,12 +69,10 @@ namespace StremioAddonExample.Controllers
             //
             // return new JsonResult(new { metas = res });
             var dataFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "ResourceFetcher",
+                Environment.GetEnvironmentVariable("STREMIO_DATA"),
                 type,
                 id
             );
-            Directory.CreateDirectory(dataFolder);
 
             var path = Path.Combine(dataFolder, "testrun.json");
             return new JsonResult(JsonConvert.DeserializeObject<CatalogModel>(System.IO.File.ReadAllText(path)));
