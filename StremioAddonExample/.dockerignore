@@ -1,0 +1,29 @@
+# Build outputs
+**/bin/
+**/obj/
+**/publish/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.csproj.user
+
+# IDE / editor files
+.vscode/
+*.code-workspace
+.idea/
+
+# Git files
+.git/
+.gitignore
+
+# Environment / secrets
+.env
+*.local
+secrets/
+
+# OS-specific
+.DS_Store
+Thumbs.db
