@@ -28,27 +28,27 @@ namespace StremioAddonExample.Controllers
         };
 
         // GET /streams/movie/tt0032138
-        [HttpGet("{type}/{id}")]
-        public JsonResult Get(string type, string id)
-        {
-            var dictId = id.Split('.')[0];
-            Dictionary<string, Stream[]> collection = null;
-            if(type == "movie")
-            {
-                collection = movies;
-            }
-            else if (type == "series")
-            {
-                collection = series;
-            }
-            else
-            {
-                return new JsonResult(new object[0]);
-            }
-
-            Stream[] res = collection.GetValueOrDefault(dictId);
-
-            return new JsonResult(new { streams = res });
-        }
+        // [HttpGet("{type}/{id}")]
+        // public JsonResult Get(string type, string id)
+        // {
+        //     var dictId = id.Split('.')[0];
+        //     Dictionary<string, Stream[]> collection = null;
+        //     if(type == "movie")
+        //     {
+        //         collection = movies;
+        //     }
+        //     else if (type == "series")
+        //     {
+        //         collection = series;
+        //     }
+        //     else
+        //     {
+        //         return new JsonResult(new object[0]);
+        //     }
+        //
+        //     Stream[] res = collection.GetValueOrDefault(dictId);
+        //
+        //     return new JsonResult(new { streams = res });
+        // }
     }
 }
