@@ -1,0 +1,19 @@
+services:
+  stremio:
+    build:
+      context: .
+      dockerfile: StremioAddonExample/Dockerfile
+    env_file:
+        - StremioAddonExample/.env
+    volumes:
+      - "./stremioData:${STREMIO_DATA}"
+  
+  worker:
+    build:
+      context: .
+      dockerfile: ResourceFetcher/Dockerfile
+    env_file: 
+      - ResourceFetcher/.env
+    volumes:
+      - "./stremioData:${RESOURCE_FETCHER_OUTPUT_PATH}"
+      
