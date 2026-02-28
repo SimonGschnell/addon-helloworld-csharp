@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StremioAddonExample.Models;
 
 namespace StremioAddonExample.Controllers
@@ -13,7 +16,7 @@ namespace StremioAddonExample.Controllers
 
         private static readonly Meta[] metas = new Meta[]
         {
-            new Meta() {Id= "tt0032138", Name=  "The Wizard of Oz", Genres = new string[] { "Adventure", "Family", "Fantasy", "Musical" } },
+            //new Meta() {Id= "tt0032138", Name=  "The Wizard of Oz", Genres = new string[] { "Adventure", "Family", "Fantasy", "Musical" } },
             new Meta() {Id= "tt0017136", Name=  "Metropolis", Genres = new string[] { "Drama", "Sci-Fi" } },
             new Meta() {Id= "tt0051744", Name=  "House on Haunted Hill", Genres = new string[] { "Horror", "Mystery" } },
             new Meta() {Id= "tt1254207", Name=  "Big Buck Bunny", Genres = new string[] { "Animation", "Short", "Comedy" } },
@@ -58,13 +61,23 @@ namespace StremioAddonExample.Controllers
             })
             .ToArray();
 
-        // GET /catalog
+        // GET /catalog/{type}
         [HttpGet("{type}/{id}")]
         public JsonResult Get(string type, string id)
         {
-            var res = catalog.Where(x => x.Type == type.ToString());
+            // var res = catalog.Where(x => x.Type == type);
+            //
+            // return new JsonResult(new { metas = res });
+            var dataFolder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ResourceFetcher",
+                type,
+                id
+            );
+            Directory.CreateDirectory(dataFolder);
 
-            return new JsonResult(new { metas = res });
+            var path = Path.Combine(dataFolder, "testrun.json");
+            return new JsonResult(JsonConvert.DeserializeObject<CatalogModel>(System.IO.File.ReadAllText(path)));
         }
     }
 }
