@@ -7,6 +7,8 @@ services:
         - StremioAddonExample/.env
     volumes:
       - "./stremioData:${STREMIO_DATA}"
+    ports:
+      - "6969:8080"
   
   worker:
     build:
@@ -16,4 +18,3 @@ services:
       - ResourceFetcher/.env
     volumes:
       - "./stremioData:${RESOURCE_FETCHER_OUTPUT_PATH}"
-      
