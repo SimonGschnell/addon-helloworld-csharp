@@ -60,7 +60,7 @@ namespace StremioAddonExample.Models
         [JsonProperty("type", Required = Required.Always)]
         public string Type { get; set; }
 
-        [JsonProperty("Name", Required = Required.Always)]
+        [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 
         [JsonProperty("genres", Required = Required.Always)]

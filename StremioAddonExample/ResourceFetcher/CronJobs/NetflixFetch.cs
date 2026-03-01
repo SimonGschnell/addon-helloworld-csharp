@@ -48,9 +48,9 @@ public class NetflixFetch: IJob
             throw new Exception("RESOURCE_FETCHER_OUTPUT_PATH env not set");
         }
 
-        var directoryPath = Path.Combine(outputPath, catalogType.ToString(), catalogId.ToString());
+        var directoryPath = Path.Combine(outputPath, catalogType.ToString());
 
-        var filePath = Path.Combine(directoryPath, "testrun.json");
+        var filePath = Path.Combine(directoryPath, $"{catalogId.ToString()}.json");
         if (!Directory.Exists(directoryPath))
         {
             Directory.CreateDirectory(directoryPath);
@@ -67,7 +67,7 @@ public class NetflixFetch: IJob
             var meta = new Meta()
             {
                 Id = showObject.imdbId, 
-                Name = showObject.originalTitle,
+                Name = showObject.title,
                 Genres = showObject.genres.Select(gen => gen.name).ToArray(),
                 Type = showObject.showType,
                 Poster = showObject.imageSet.verticalPoster.w240,

@@ -68,6 +68,9 @@ namespace StremioAddonExample.Controllers
             // var res = catalog.Where(x => x.Type == type);
             //
             // return new JsonResult(new { metas = res });
+            if (id.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+                id = id[..^5];
+
             var stremioDataPath = Environment.GetEnvironmentVariable("STREMIO_DATA");
             if (string.IsNullOrEmpty(stremioDataPath))
             {
@@ -75,11 +78,10 @@ namespace StremioAddonExample.Controllers
             }
             var dataFolder = Path.Combine(
                 stremioDataPath,
-                type,
-                id
+                type
             );
 
-            var path = Path.Combine(dataFolder, "testrun.json");
+            var path = Path.Combine(dataFolder, $"{id}.json");
             return new JsonResult(JsonConvert.DeserializeObject<CatalogModel>(System.IO.File.ReadAllText(path)));
         }
     }
