@@ -1,19 +1,20 @@
-﻿using dotenv.net;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using dotenv.net;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace StremioAddonExample
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            DotEnv.Load();
-            CreateWebHostBuilder(args).Build().Run();
-        }
+DotEnv.Load();
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
-}
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddCors();
+
+var app = builder.Build();
+
+app.UseCors(b => b
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+);
+
+app.MapControllers();
+app.Run();

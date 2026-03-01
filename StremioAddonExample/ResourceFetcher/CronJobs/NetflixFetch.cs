@@ -1,4 +1,3 @@
-using dotenv.net.Utilities;
 using Newtonsoft.Json;
 using Quartz;
 using ResourceFetcher.Models;
@@ -43,8 +42,8 @@ public class NetflixFetch: IJob
 
     private static void PersistMetaDataToLocalApplicationData(CatalogType catalogType, CatalogId catalogId, string data)
     {
-        var outputPath = EnvReader.GetStringValue("RESOURCE_FETCHER_OUTPUT_PATH");
-        if (outputPath == null)
+        var outputPath = Environment.GetEnvironmentVariable("RESOURCE_FETCHER_OUTPUT_PATH");
+        if (string.IsNullOrEmpty(outputPath))
         {
             throw new Exception("RESOURCE_FETCHER_OUTPUT_PATH env not set");
         }

@@ -1,5 +1,4 @@
 using dotenv.net;
-using dotenv.net.Utilities;
 using ResourceFetcher.CronJobs;
 
 namespace ResourceFetcher;
@@ -13,8 +12,8 @@ public class Program
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
         DotEnv.Load(options: new DotEnvOptions(trimValues: true));
-        var rapidApiKey = EnvReader.GetStringValue("RAPID_API_KEY");
-        if (rapidApiKey == null)
+        var rapidApiKey = Environment.GetEnvironmentVariable("RAPID_API_KEY");
+        if (string.IsNullOrEmpty(rapidApiKey))
         {
             throw new Exception("RAPID_API_KEY env not set");
         }
