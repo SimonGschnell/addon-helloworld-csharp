@@ -11,21 +11,9 @@ public class ResourceFetcherHttpClient
         _logger = logger;
     }
 
-    public async Task<string> FetchAsync(string url, Dictionary<string, string>? queryParameters = null)
+    public async Task<string> FetchAsync(HttpRequestMessage request)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, url);
-        if (queryParameters != null)
-        {
-            var uriBuilder = new UriBuilder(url);
-            var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-            foreach (var kv in queryParameters)
-            {
-                query[kv.Key] = kv.Value;
-            }
-
-            uriBuilder.Query = query.ToString();
-            request.RequestUri = uriBuilder.Uri;
-        }
+        
         if (_logger.IsEnabled(LogLevel.Information))
         {
             _logger.LogInformation("{date} - Fetching {url}", DateTime.Now, request.RequestUri);
