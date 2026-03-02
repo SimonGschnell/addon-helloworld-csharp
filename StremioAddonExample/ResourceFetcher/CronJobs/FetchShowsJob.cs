@@ -1,16 +1,17 @@
 using Newtonsoft.Json;
 using Quartz;
 using ResourceFetcher.Models;
+using ResourceFetcher.Models.Adapters;
 using StremioAddonExample.Models;
 
 namespace ResourceFetcher.CronJobs;
 
-public class NetflixFetch: IJob
+public class FetchShowsJob: IJob
 {
-    private readonly ILogger<NetflixFetch> _logger;
+    private readonly ILogger<FetchShowsJob> _logger;
     private readonly ResourceFetcherHttpClient _client;
 
-    public NetflixFetch(ILogger<NetflixFetch> logger, ResourceFetcherHttpClient client)
+    public FetchShowsJob(ILogger<FetchShowsJob> logger, ResourceFetcherHttpClient client)
     {
         _logger = logger;
         _client = client;
@@ -20,7 +21,7 @@ public class NetflixFetch: IJob
     {
         try
         {
-            _logger.LogInformation("NetflixFetch job executed at: {time}", DateTime.Now);
+            _logger.LogInformation("Fetching shows: {time}", DateTime.Now);
 
             await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.movie);
             await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.series);
@@ -61,17 +62,11 @@ public class NetflixFetch: IJob
     private static string ConvertApiResultToMetaDa(string movieResponse)
     {
         var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(movieResponse) ?? [];
-        var metasList = new List<Meta>();
+        var metasList = new List<IMeta>();
+        
         foreach (var showObject in showObjects)
         {
-            var meta = new Meta()
-            {
-                Id = showObject.imdbId, 
-                Name = showObject.title,
-                Genres = showObject.genres.Select(gen => gen.name).ToArray(),
-                Type = showObject.showType,
-                Poster = showObject.imageSet.verticalPoster.w240,
-            };
+            var meta = new AdapterForMovieOfTheNight(showObject);
             metasList.Add(meta);
         }
 

@@ -6,7 +6,7 @@ namespace StremioAddonExample.Models
     public class CatalogModel
     {
             [JsonProperty("metas", Required = Required.Always)]
-            public Meta[] Metas { get; set; }
+            public IMeta[] Metas { get; set; }
     }
 
     public enum CatalogId

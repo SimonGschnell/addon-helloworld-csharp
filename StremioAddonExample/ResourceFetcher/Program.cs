@@ -27,7 +27,7 @@ public class Program
         builder.Services.AddQuartz(q =>
         {
             var netflixJob = new JobKey("NetflixFetch");
-            q.AddJob<NetflixFetch>(opts => opts.WithIdentity(netflixJob));
+            q.AddJob<FetchShowsJob>(opts => opts.WithIdentity(netflixJob));
 
             q.AddTrigger(opts => opts
                 .ForJob(netflixJob)
