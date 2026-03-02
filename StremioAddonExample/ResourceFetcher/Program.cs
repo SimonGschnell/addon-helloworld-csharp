@@ -1,5 +1,6 @@
 using dotenv.net;
 using ResourceFetcher.CronJobs;
+using ResourceFetcher.Services;
 
 namespace ResourceFetcher;
 using Quartz;
@@ -17,7 +18,8 @@ public class Program
         {
             throw new Exception("RAPID_API_KEY env not set");
         }
-        
+
+        builder.Services.AddScoped<IFetchServiceCollection>(_ => new FetchServiceCollection().WithNetflixService());
         builder.Services.AddHttpClient<ResourceFetcherHttpClient>(conf =>
         {
             conf.DefaultRequestHeaders.Add("X-RapidAPI-Key",rapidApiKey);
