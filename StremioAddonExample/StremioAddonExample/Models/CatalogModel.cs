@@ -13,4 +13,10 @@ namespace StremioAddonExample.Models
     {
         netflixTop10
     }
+    
+    public enum CatalogType
+    {
+        movie,
+        series
+    }
 }
