@@ -1,18 +1,21 @@
 using Newtonsoft.Json;
 using Quartz;
+using ResourceFetcher.Helpers;
 using ResourceFetcher.Models;
-using ResourceFetcher.Models.Adapters;
+using ResourceFetcher.Services;
 using StremioAddonExample.Models;
 
 namespace ResourceFetcher.CronJobs;
 
 public class FetchShowsJob: IJob
 {
+    private readonly IFetchServiceCollection _fetchServiceCollection;
     private readonly ILogger<FetchShowsJob> _logger;
     private readonly ResourceFetcherHttpClient _client;
 
-    public FetchShowsJob(ILogger<FetchShowsJob> logger, ResourceFetcherHttpClient client)
+    public FetchShowsJob(ILogger<FetchShowsJob> logger, ResourceFetcherHttpClient client, IFetchServiceCollection fetchServiceCollection)
     {
+        _fetchServiceCollection = fetchServiceCollection;
         _logger = logger;
         _client = client;
     }
@@ -21,10 +24,7 @@ public class FetchShowsJob: IJob
     {
         try
         {
-            _logger.LogInformation("Fetching shows: {time}", DateTime.Now);
-
-            await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.movie);
-            await FetchAndPersistFor(CatalogId.netflixTop10, CatalogType.series);
+            await FetchServicesAsync();
         }
         catch (Exception ex)
         {
@@ -32,24 +32,43 @@ public class FetchShowsJob: IJob
         }
     }
 
-    private async Task FetchAndPersistFor(CatalogId catalogId, CatalogType catalogType)
+    private async Task FetchServicesAsync()
     {
-        var movieResponse = await GetApiResultFor(catalogType);
-
-        var data = ConvertApiResultToMetaDa(movieResponse);
-
-        PersistMetaDataToLocalApplicationData(catalogType, catalogId, data);
+        _logger.LogInformation("Fetching shows: {time}", DateTime.Now);
+        foreach (var fetchService in _fetchServiceCollection.services)
+        {
+            await FetchAndPersistFor(CatalogType.movie, fetchService);
+            await FetchAndPersistFor(CatalogType.series, fetchService);
+        }
     }
 
-    private static void PersistMetaDataToLocalApplicationData(CatalogType catalogType, CatalogId catalogId, string data)
+    private async Task FetchAndPersistFor(CatalogType catalogType, IFetchService fetchService)
     {
-        var outputPath = Environment.GetEnvironmentVariable("RESOURCE_FETCHER_OUTPUT_PATH");
-        if (string.IsNullOrEmpty(outputPath))
-        {
-            throw new Exception("RESOURCE_FETCHER_OUTPUT_PATH env not set");
-        }
+        var result = await GetApiResultFor(catalogType, fetchService);
+        var metadata = ConvertApiResultToMetaData(result, fetchService);
+        PersistCatalogMetaData(catalogType, fetchService.catalogId, metadata);
+    }
 
-        var directoryPath = Path.Combine(outputPath, catalogType.ToString());
+    private async Task<string> GetApiResultFor(CatalogType type, IFetchService fetchService)
+    {
+        _logger.LogInformation("Fetching {catalogType} for {service}: {time}", type.ToString(), fetchService.name, DateTime.Now);
+        var request = fetchService.GetRequest(type);
+        return await _client.FetchAsync(request);
+    }
+
+    private static string ConvertApiResultToMetaData(string movieResponse, IFetchService fetchService)
+    {
+        var metasList = fetchService.ConvertToMetaData(movieResponse);
+
+        return JsonConvert.SerializeObject(new CatalogModel
+        {
+            Metas = metasList.ToArray(),
+        });
+    }
+
+    private static void PersistCatalogMetaData(CatalogType catalogType, CatalogId catalogId, string data)
+    {
+        var directoryPath = Path.Combine(EnvironmentHelper.GetOutputPath(), catalogType.ToString());
 
         var filePath = Path.Combine(directoryPath, $"{catalogId.ToString()}.json");
         if (!Directory.Exists(directoryPath))
@@ -58,42 +77,4 @@ public class FetchShowsJob: IJob
         }
         File.WriteAllText(filePath,data);
     }
-
-    private static string ConvertApiResultToMetaDa(string movieResponse)
-    {
-        var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(movieResponse) ?? [];
-        var metasList = new List<IMeta>();
-        
-        foreach (var showObject in showObjects)
-        {
-            var meta = new AdapterForMovieOfTheNight(showObject);
-            metasList.Add(meta);
-        }
-
-        var json = new CatalogModel()
-        {
-            Metas = metasList.ToArray(),
-        };
-
-        var data = JsonConvert.SerializeObject(json);
-        return data;
-    }
-
-    private async Task<string> GetApiResultFor( CatalogType type)
-    {
-        var queryParameters = new Dictionary<string, string>()
-        {
-            { "country", "AT" },
-            { "service", "netflix" },
-            { "show_type", type.ToString() }
-        };
-        var movieResponse = await _client.FetchAsync("https://streaming-availability.p.rapidapi.com/shows/top",queryParameters);
-        return movieResponse;
-    }
-}
-
-internal enum CatalogType
-{
-    movie,
-    series
 }
