@@ -51,8 +51,17 @@ namespace StremioAddonExample.Models
     }
 
 
+    public interface IMeta
+    {
+        string Id { get; set; }
+        string Type { get; set; }
+        string Name { get; set; }
+        string[] Genres { get; }
+        string Poster { get; set; }
+    }
+
     [System.Serializable]
-    public class Meta
+    public class Meta : IMeta
     {
         [JsonProperty("id", Required = Required.Always)]
         public string Id { get; set; }
