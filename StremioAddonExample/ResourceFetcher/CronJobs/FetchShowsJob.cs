@@ -34,7 +34,7 @@ public class FetchShowsJob: IJob
 
     private async Task FetchServicesAsync()
     {
-        _logger.LogInformation("Fetching shows: {time}", DateTime.Now);
+        _logger.LogInformation("Fetching shows: {time}", DateTime.UtcNow);
         foreach (var fetchService in _fetchServiceCollection.services)
         {
             await FetchAndPersistFor(CatalogType.movie, fetchService);
@@ -51,7 +51,7 @@ public class FetchShowsJob: IJob
 
     private async Task<string> GetApiResultFor(CatalogType type, IFetchService fetchService)
     {
-        _logger.LogInformation("Fetching {catalogType} for {service}: {time}", type.ToString(), fetchService.name, DateTime.Now);
+        _logger.LogInformation("Fetching {catalogType} for {service}: {time}", type.ToString(), fetchService.name, DateTime.UtcNow);
         var request = fetchService.GetRequest(type);
         return await _client.FetchAsync(request);
     }
