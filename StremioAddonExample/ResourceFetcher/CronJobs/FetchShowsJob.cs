@@ -35,7 +35,7 @@ public class FetchShowsJob: IJob
     private async Task FetchServicesAsync()
     {
         _logger.LogInformation("Fetching shows: {time}", DateTime.UtcNow);
-        foreach (var fetchService in _fetchServiceCollection.services)
+        foreach (var fetchService in _fetchServiceCollection.Services)
         {
             await FetchAndPersistFor(CatalogType.movie, fetchService);
             await FetchAndPersistFor(CatalogType.series, fetchService);
@@ -46,12 +46,12 @@ public class FetchShowsJob: IJob
     {
         var result = await GetApiResultFor(catalogType, fetchService);
         var metadata = ConvertApiResultToMetaData(result, fetchService);
-        PersistCatalogMetaData(catalogType, fetchService.catalogId, metadata);
+        await PersistCatalogMetaData(catalogType, fetchService.CatalogId, metadata);
     }
 
     private async Task<string> GetApiResultFor(CatalogType type, IFetchService fetchService)
     {
-        _logger.LogInformation("Fetching {catalogType} for {service}: {time}", type.ToString(), fetchService.name, DateTime.UtcNow);
+        _logger.LogInformation("Fetching {catalogType} for {service}: {time}", type.ToString(), fetchService.Name, DateTime.UtcNow);
         var request = fetchService.GetRequest(type);
         return await _client.FetchAsync(request);
     }
@@ -66,7 +66,7 @@ public class FetchShowsJob: IJob
         });
     }
 
-    private static void PersistCatalogMetaData(CatalogType catalogType, CatalogId catalogId, string data)
+    private static async Task PersistCatalogMetaData(CatalogType catalogType, CatalogId catalogId, string data)
     {
         var directoryPath = Path.Combine(EnvironmentHelper.GetOutputPath(), catalogType.ToString());
 
@@ -75,6 +75,6 @@ public class FetchShowsJob: IJob
         {
             Directory.CreateDirectory(directoryPath);
         }
-        File.WriteAllText(filePath,data);
+        await File.WriteAllTextAsync(filePath, data);
     }
 }

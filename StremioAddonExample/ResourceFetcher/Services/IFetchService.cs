@@ -5,8 +5,8 @@ namespace ResourceFetcher.Services;
 
 public interface IFetchService
 {
-    public string name { get; }
-    CatalogId catalogId { get; }
+    public string Name { get; }
+    CatalogId CatalogId { get; }
     public HttpRequestMessage GetRequest(CatalogType type);
     public List<IMeta> ConvertToMetaData(string movieResponse);
 }

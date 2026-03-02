@@ -11,8 +11,8 @@ public class NetflixService: IFetchService
         return new NetflixService();
     }
 
-    public string name => "NetflixService";
-    public CatalogId catalogId => CatalogId.netflixTop10;
+    public string Name => "NetflixService";
+    public CatalogId CatalogId => CatalogId.netflixTop10;
     public IMetaAdapter metadataAdapter { get; set; } = new AdapterForMovieOfTheNight();
 
     public HttpRequestMessage GetRequest(CatalogType type)

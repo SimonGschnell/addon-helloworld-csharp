@@ -2,5 +2,5 @@ namespace ResourceFetcher.Services;
 
 public interface IFetchServiceCollection
 {
-    public List<IFetchService> services { get; set; }
+    public List<IFetchService> Services { get; set; }
 }
