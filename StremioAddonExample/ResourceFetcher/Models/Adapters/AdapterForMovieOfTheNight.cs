@@ -1,9 +1,13 @@
+using Newtonsoft.Json;
 using StremioAddonExample.Models;
 
 namespace ResourceFetcher.Models.Adapters;
 
-public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta
+public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta, IMetaAdapter
 {
+    public AdapterForMovieOfTheNight() : this(new ShowObject())
+    {
+    }
     public string Id
     {
         get => obj.imdbId;
@@ -26,4 +30,23 @@ public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta
         get => obj.imageSet.verticalPoster.w240;
         set => obj.imageSet.verticalPoster.w240 = value;
     }
+
+    public List<IMeta> ConvertToStandardizedMetaData(string response)
+    {
+        var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(response) ?? [];
+        var metasList = new List<IMeta>();
+
+        foreach (var showObject in showObjects)
+        {
+            var meta = new AdapterForMovieOfTheNight(showObject);
+            metasList.Add(meta);
+        }
+
+        return metasList;
+    }
+}
+
+public interface IMetaAdapter
+{
+    public List<IMeta> ConvertToStandardizedMetaData(string response);
 }
