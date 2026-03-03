@@ -1,10 +1,7 @@
-using ResourceFetcher.CronJobs;
 using ResourceFetcher.Models.Adapters;
 using StremioAddonExample.Models;
 
 namespace ResourceFetcher.Services;
-
-
 
 public class NetflixService: MovieOfTheNightServiceBase, IFetchService
 {
@@ -23,13 +20,13 @@ public class NetflixService: MovieOfTheNightServiceBase, IFetchService
     }
 }
 
-public class PrimeService: MovieOfTheNightServiceBase, IFetchService
+public class Services: MovieOfTheNightServiceBase, IFetchService
 {
     private string country { get; }
     public string Name => "PrimeService";
     public CatalogId CatalogId => CatalogId.primeTop10;
 
-    public PrimeService(string country)
+    public Services(string country)
     {
         this.country = country;
     }
