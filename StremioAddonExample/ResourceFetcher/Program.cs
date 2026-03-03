@@ -19,10 +19,16 @@ public class Program
             throw new Exception("RAPID_API_KEY env not set");
         }
 
-        builder.Services.AddScoped<IFetchServiceCollection>(_ => new FetchServiceCollection().WithNetflixService());
+        builder.Services.AddScoped<IFetchServiceCollection>(_ => 
+            new FetchServiceCollection()
+                .WithNetflixService()
+                .WithPrimeService()
+                .WithDisneyService()
+                .WithAppleService()
+                .WithHboService());
         builder.Services.AddScoped<FetchServiceOrchestrator>();
         builder.Services.AddScoped<IPersistenceService, FilePersistence>();
-        builder.Services.AddHttpClient<ResourceFetcherHttpClient>(conf =>
+        builder.Services.AddHttpClient<IResourceFetcherHttpClient,ResourceFetcherHttpClient>(conf =>
         {
             conf.DefaultRequestHeaders.Add("X-RapidAPI-Key",rapidApiKey);
             conf.DefaultRequestHeaders.Add("X-RapidAPI-Host", "streaming-availability.p.rapidapi.com");
