@@ -20,6 +20,8 @@ public class Program
         }
 
         builder.Services.AddScoped<IFetchServiceCollection>(_ => new FetchServiceCollection().WithNetflixService());
+        builder.Services.AddScoped<FetchServiceOrchestrator>();
+        builder.Services.AddScoped<IPersistenceService, FilePersistence>();
         builder.Services.AddHttpClient<ResourceFetcherHttpClient>(conf =>
         {
             conf.DefaultRequestHeaders.Add("X-RapidAPI-Key",rapidApiKey);
