@@ -4,11 +4,11 @@ namespace ResourceFetcher.Services;
 
 public class FetchServiceCollection : IFetchServiceCollection
 {
-    public List<IFetchService> services { get; set; } = [];
+    public List<IFetchService> Services { get; set; } = [];
 
     public FetchServiceCollection WithNetflixService()
     {
-        services.Add(NetflixService.Create());
+        Services.Add(NetflixService.Create());
         return this;
     }
 }
