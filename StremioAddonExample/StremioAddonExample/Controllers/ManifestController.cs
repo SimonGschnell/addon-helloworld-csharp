@@ -13,8 +13,8 @@ namespace StremioAddonExample.Controllers
         {
             id = "org.stremio.gschnell.top10",
             version = "1.0.0",
-            name = "CORE Example",
-            description = "Sample addon made C# ASP.NET CORE 2.2 providing a few public domain movies",
+            name = "Top10Addon",
+            description = "Stremio Addon for top10 movies and series of different streaming providers",
             logo = "https://www.stremio.com/website/stremio-logo-small.png",
             resources =
             [
@@ -28,7 +28,15 @@ namespace StremioAddonExample.Controllers
             catalogs =
             [
                 new Catalog { id = CatalogId.netflixTop10, type = "movie", name = CatalogId.netflixTop10.ToString()},
-                new Catalog { id = CatalogId.netflixTop10, type = "series", name = CatalogId.netflixTop10.ToString()}
+                new Catalog { id = CatalogId.netflixTop10, type = "series", name = CatalogId.netflixTop10.ToString()},
+                new Catalog { id = CatalogId.primeTop10, type = "movie", name = CatalogId.primeTop10.ToString()},
+                new Catalog { id = CatalogId.primeTop10, type = "series", name = CatalogId.primeTop10.ToString()},
+                new Catalog { id = CatalogId.disneyTop10, type = "movie", name = CatalogId.disneyTop10.ToString()},
+                new Catalog { id = CatalogId.disneyTop10, type = "series", name = CatalogId.disneyTop10.ToString()},
+                new Catalog { id = CatalogId.appleTop10, type = "movie", name = CatalogId.appleTop10.ToString()},
+                new Catalog { id = CatalogId.appleTop10, type = "series", name = CatalogId.appleTop10.ToString()},
+                new Catalog { id = CatalogId.hboTop10, type = "movie", name = CatalogId.hboTop10.ToString()},
+                new Catalog { id = CatalogId.hboTop10, type = "series", name = CatalogId.hboTop10.ToString()},
             ]
         };
 
