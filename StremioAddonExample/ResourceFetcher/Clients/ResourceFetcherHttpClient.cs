@@ -1,6 +1,11 @@
 namespace ResourceFetcher;
 
-public class ResourceFetcherHttpClient
+public interface IResourceFetcherHttpClient
+{
+    public Task<string> FetchAsync(HttpRequestMessage request);
+}
+
+public class ResourceFetcherHttpClient : IResourceFetcherHttpClient
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<ResourceFetcherHttpClient> _logger;
