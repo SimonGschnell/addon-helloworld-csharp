@@ -11,7 +11,11 @@ namespace StremioAddonExample.Models
 
     public enum CatalogId
     {
-        netflixTop10
+        netflixTop10,
+        primeTop10,
+        disneyTop10,
+        appleTop10,
+        hboTop10
     }
     
     public enum CatalogType
