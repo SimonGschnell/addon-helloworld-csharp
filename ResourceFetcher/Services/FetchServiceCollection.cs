@@ -25,7 +25,7 @@ public class FetchServiceCollection : IFetchServiceCollection
     
     public FetchServiceCollection WithAppleService()
     {
-        Services.Add(new AppleService(Country));
+        Services.Add(new AppleService("us"));
         return this;
     }
     
