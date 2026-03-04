@@ -1,4 +1,4 @@
-stremioData/
+data/*
 .idea
 .idea/*
 .env
