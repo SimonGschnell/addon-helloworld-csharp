@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -15,7 +16,7 @@ namespace StremioAddon.Controllers
             version = "1.0.0",
             name = "Top10Addon",
             description = "Stremio Addon for top10 movies and series of different streaming providers",
-            logo = "https://www.stremio.com/website/stremio-logo-small.png",
+            logo = Environment.GetEnvironmentVariable("ADDON_LOGO") ?? "https://www.stremio.com/website/stremio-logo-small.png",
             resources =
             [
                 "catalog"
