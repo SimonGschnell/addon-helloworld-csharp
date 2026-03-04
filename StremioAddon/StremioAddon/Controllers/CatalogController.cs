@@ -65,9 +65,6 @@ namespace StremioAddon.Controllers
         [HttpGet("{type}/{id}")]
         public JsonResult Get(string type, string id)
         {
-            // var res = catalog.Where(x => x.Type == type);
-            //
-            // return new JsonResult(new { metas = res });
             if (id.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
                 id = id[..^5];
 

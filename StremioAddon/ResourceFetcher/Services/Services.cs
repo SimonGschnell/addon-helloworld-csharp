@@ -91,7 +91,7 @@ public class HboService: MovieOfTheNightServiceBase, IFetchService
 public class MovieOfTheNightServiceBase
 {
     private IMetaAdapter metadataAdapter { get; } = new AdapterForMovieOfTheNight();
-    public List<IMeta> ConvertToMetaData(string movieResponse) => metadataAdapter.ConvertToStandardizedMetaData(movieResponse);
+    public List<Meta> ConvertToMetaData(string movieResponse) => metadataAdapter.ConvertToStandardizedMetaData(movieResponse);
     protected static HttpRequestMessage GenerateHttpRequestMessage(CatalogType type, string country, string service)
     {
         var queryParameters = new Dictionary<string, string>()

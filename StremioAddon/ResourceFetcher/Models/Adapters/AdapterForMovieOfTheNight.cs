@@ -3,7 +3,7 @@ using StremioAddon.Models;
 
 namespace ResourceFetcher.Models.Adapters;
 
-public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta, IMetaAdapter
+public class AdapterForMovieOfTheNight(ShowObject obj) : Meta, IMetaAdapter
 {
     public AdapterForMovieOfTheNight() : this(new ShowObject())
     {
@@ -31,10 +31,10 @@ public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta, IMetaAdapter
         set => obj.imageSet.verticalPoster.w240 = value;
     }
 
-    public List<IMeta> ConvertToStandardizedMetaData(string response)
+    public List<Meta> ConvertToStandardizedMetaData(string response)
     {
         var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(response) ?? [];
-        var metasList = new List<IMeta>();
+        var metasList = new List<Meta>();
 
         foreach (var showObject in showObjects)
         {
@@ -48,5 +48,5 @@ public class AdapterForMovieOfTheNight(ShowObject obj) : IMeta, IMetaAdapter
 
 public interface IMetaAdapter
 {
-    public List<IMeta> ConvertToStandardizedMetaData(string response);
+    public List<Meta> ConvertToStandardizedMetaData(string response);
 }

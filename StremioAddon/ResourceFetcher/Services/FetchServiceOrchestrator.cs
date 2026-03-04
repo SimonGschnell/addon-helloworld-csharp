@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using ResourceFetcher.Helpers;
 using StremioAddon.Models;
 
 namespace ResourceFetcher.Services;
