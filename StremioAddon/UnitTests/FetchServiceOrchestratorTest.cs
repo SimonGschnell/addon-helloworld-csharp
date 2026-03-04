@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ResourceFetcher;
 using ResourceFetcher.Services;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
 namespace UnitTests;
 

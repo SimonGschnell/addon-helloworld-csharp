@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using ResourceFetcher.Helpers;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
 namespace ResourceFetcher.Services;
 

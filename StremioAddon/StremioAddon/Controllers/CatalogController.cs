@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
-namespace StremioAddonExample.Controllers
+namespace StremioAddon.Controllers
 {
 
     [ApiController]

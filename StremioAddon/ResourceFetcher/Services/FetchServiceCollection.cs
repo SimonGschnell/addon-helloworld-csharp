@@ -1,5 +1,3 @@
-using ResourceFetcher.CronJobs;
-
 namespace ResourceFetcher.Services;
 
 public class FetchServiceCollection : IFetchServiceCollection

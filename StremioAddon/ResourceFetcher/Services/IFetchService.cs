@@ -1,5 +1,5 @@
 using ResourceFetcher.CronJobs;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
 namespace ResourceFetcher.Services;
 

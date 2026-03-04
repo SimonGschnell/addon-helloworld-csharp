@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace StremioAddonExample.Models
+namespace StremioAddon.Models
 {
     [System.Serializable]
     public class CatalogModel

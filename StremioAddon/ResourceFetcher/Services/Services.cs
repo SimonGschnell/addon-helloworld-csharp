@@ -1,5 +1,5 @@
 using ResourceFetcher.Models.Adapters;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
 namespace ResourceFetcher.Services;
 

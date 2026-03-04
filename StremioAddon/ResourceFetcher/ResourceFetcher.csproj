@@ -27,6 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StremioAddonExample\StremioAddonExample.csproj" />
+      <ProjectReference Include="..\StremioAddon\StremioAddon.csproj" />
     </ItemGroup>
 </Project>

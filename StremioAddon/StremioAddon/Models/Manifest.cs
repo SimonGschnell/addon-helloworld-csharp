@@ -1,4 +1,4 @@
-﻿namespace StremioAddonExample.Models
+﻿namespace StremioAddon.Models
 {
     public class Manifest
     {

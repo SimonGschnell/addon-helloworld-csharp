@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using StremioAddonExample.Models;
+using StremioAddon.Models;
 
-namespace StremioAddonExample.Controllers
+namespace StremioAddon.Controllers
 {
     [ApiController]
     [Route("[controller]")]

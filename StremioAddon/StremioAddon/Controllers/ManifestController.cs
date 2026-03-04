@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using StremioAddonExample.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using StremioAddon.Models;
 
-namespace StremioAddonExample.Controllers
+namespace StremioAddon.Controllers
 {
     [ApiController]
     public class ManifestController : ControllerBase

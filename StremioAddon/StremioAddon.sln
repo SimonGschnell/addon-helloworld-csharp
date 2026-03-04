@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StremioAddonExample", "StremioAddonExample\StremioAddonExample.csproj", "{953C1C09-769A-4BC4-8176-0830E0A6539D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StremioAddon", "StremioAddon\StremioAddon.csproj", "{953C1C09-769A-4BC4-8176-0830E0A6539D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceFetcher", "ResourceFetcher\ResourceFetcher.csproj", "{B24EA15E-CC68-413E-A133-BD0CF9962B81}"
 EndProject
