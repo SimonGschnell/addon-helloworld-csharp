@@ -3,17 +3,8 @@ using StremioAddon.Models;
 
 namespace ResourceFetcher.Models.Adapters;
 
-public class AdapterForMovieOfTheNight : Meta, IMetaAdapter
+public class AdapterForMovieOfTheNight : IMetaAdapter
 {
-    public AdapterForMovieOfTheNight(ShowObject obj)
-    {
-        Id = obj.imdbId;
-        Type = obj.showType;
-        Name = obj.title;
-        Genres = obj.genres?.Select(gen => gen.name).ToArray() ?? [];
-        Poster = obj.imageSet?.verticalPoster?.w240;
-    }
-
     public List<Meta> ConvertToStandardizedMetaData(string response)
     {
         var showObjects = JsonConvert.DeserializeObject<ShowObject[]>(response) ?? [];
@@ -21,9 +12,16 @@ public class AdapterForMovieOfTheNight : Meta, IMetaAdapter
 
         foreach (var showObject in showObjects)
         {
-            var adapter = new AdapterForMovieOfTheNight(showObject);
-            if (adapter.Id == null) continue;
-            metasList.Add(adapter);
+            var meta = new Meta
+            {
+                Id = showObject.imdbId,
+                Type = showObject.showType,
+                Name = showObject.title,
+                Genres = showObject.genres?.Select(gen => gen.name).ToArray() ?? [],
+                Poster = showObject.imageSet?.verticalPoster?.w240,
+            };
+            if (meta.Id == null) continue;
+            metasList.Add(meta);
         }
 
         return metasList;
