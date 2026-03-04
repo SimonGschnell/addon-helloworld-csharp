@@ -2,7 +2,7 @@ using dotenv.net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-DotEnv.Load();
+DotEnv.Load(new DotEnvOptions(probeForEnv:true, probeLevelsToSearch:5));
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddNewtonsoftJson();

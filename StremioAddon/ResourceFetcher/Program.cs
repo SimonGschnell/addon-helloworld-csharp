@@ -12,7 +12,7 @@ public class Program
         var builder = Host.CreateApplicationBuilder(args);
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
-        DotEnv.Load(options: new DotEnvOptions(trimValues: true));
+        DotEnv.Load(options: new DotEnvOptions(trimValues: true, probeForEnv:true, probeLevelsToSearch:5));
         var rapidApiKey = Environment.GetEnvironmentVariable("RAPID_API_KEY");
         if (string.IsNullOrEmpty(rapidApiKey))
         {
