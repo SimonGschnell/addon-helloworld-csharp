@@ -20,4 +20,10 @@
     <ItemGroup>
       <ProjectReference Include="..\StremioAddon\StremioAddon.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="appsettings.Development.json">
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
 </Project>
