@@ -1,4 +1,3 @@
-using ResourceFetcher.Helpers;
 using StremioAddon.Models;
 
 namespace ResourceFetcher.Services;
@@ -12,7 +11,13 @@ public class FilePersistence : IPersistenceService
 {
     public async Task PersistCatalogMetaData(CatalogType catalogType, CatalogId catalogId, string data)
     {
-        var directoryPath = Path.Combine(EnvironmentHelper.GetOutputPath(), catalogType.ToString());
+        var outputPath = Environment.GetEnvironmentVariable("STREMIO_DATA");
+        if (string.IsNullOrEmpty(outputPath))
+        {
+            throw new Exception("STREMIO_DATA env not set");
+        }
+
+        var directoryPath = Path.Combine(outputPath, catalogType.ToString());
 
         var filePath = Path.Combine(directoryPath, $"{catalogId.ToString()}.json");
         if (!Directory.Exists(directoryPath))
