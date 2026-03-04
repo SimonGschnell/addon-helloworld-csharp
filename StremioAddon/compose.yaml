@@ -2,19 +2,19 @@ services:
   stremio:
     build:
       context: .
-      dockerfile: StremioAddonExample/Dockerfile
+      dockerfile: StremioAddon/Dockerfile
     env_file:
-        - StremioAddonExample/.env
+        - .env
     volumes:
       - "./stremioData:${STREMIO_DATA}"
     ports:
-      - "6969:8080"
+      - "420:8080"
   
   worker:
     build:
       context: .
       dockerfile: ResourceFetcher/Dockerfile
     env_file: 
-      - ResourceFetcher/.env
+      - .env
     volumes:
       - "./stremioData:${RESOURCE_FETCHER_OUTPUT_PATH}"
