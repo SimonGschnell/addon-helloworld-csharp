@@ -3,9 +3,9 @@ LABEL maintainer="SimonGschnell"
 RUN apk add --no-cache tzdata
 WORKDIR /app
 COPY ResourceFetcher/ ResourceFetcher/
-COPY StremioAddonExample/ StremioAddonExample/
+COPY StremioAddon/ StremioAddon/
 WORKDIR /app/ResourceFetcher
 RUN dotnet restore
-RUN dotnet publish -c Release -o /publish -p:ErrorOnDuplicatePublishOutputFiles=false
+RUN dotnet publish -c Release -o /publish
 WORKDIR /publish
 ENTRYPOINT ["dotnet", "ResourceFetcher.dll"]
