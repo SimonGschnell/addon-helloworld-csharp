@@ -18,7 +18,7 @@ public class AdapterForMovieOfTheNight : IMetaAdapter
                 Type = showObject.showType,
                 Name = showObject.title,
                 Genres = showObject.genres?.Select(gen => gen.name).ToArray() ?? [],
-                Poster = showObject.imageSet?.verticalPoster?.w240,
+                Poster = $"https://images.metahub.space/poster/medium/{showObject.imdbId}/img"
             };
             if (meta.Id == null) continue;
             metasList.Add(meta);
