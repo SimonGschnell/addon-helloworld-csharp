@@ -38,6 +38,8 @@ namespace StremioAddon.Controllers
                 new Catalog { id = CatalogId.appleTop10, type = "series", name = CatalogId.appleTop10.ToString()},
                 new Catalog { id = CatalogId.hboTop10, type = "movie", name = CatalogId.hboTop10.ToString()},
                 new Catalog { id = CatalogId.hboTop10, type = "series", name = CatalogId.hboTop10.ToString()},
+		new Catalog { id = CatalogId.recommended_movies, type = "movie", name = CatalogId.recommended_movies.ToString()},
+		new Catalog { id = CatalogId.recommended_series, type = "series", name = CatalogId.recommended_series.ToString()},
             ]
         };
 

@@ -15,7 +15,9 @@ namespace StremioAddon.Models
         primeTop10,
         disneyTop10,
         appleTop10,
-        hboTop10
+        hboTop10,
+	recommended_movies,
+	recommended_series,
     }
     
     public enum CatalogType
